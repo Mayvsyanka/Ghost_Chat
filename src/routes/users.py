@@ -7,7 +7,7 @@ import cloudinary.uploader
 from sqlalchemy import func
 
 from src.database.db import get_db
-from src.database.models import User, Image
+from src.database.models import User
 from src.repository import users as repository_users
 from src.services.auth import auth_service
 from src.schemas import UserDb, UpdateUser, Profile
@@ -75,11 +75,10 @@ async def get_profile(username: str, _: User = Depends(auth_service.get_current_
     :doc-author: Trelent
     """
     user_info = await repository_users.get_user_info(username, db)
-    photos = db.query(func.count()).filter(Image.id == user_info.id).scalar()
     return {"username": user_info.username, 
             "email": user_info.email,
             "crated_at": user_info.crated_at,
             "avatar": user_info.avatar,
             "bio": user_info.bio,
             "location": user_info.location,
-            "images": photos}
+            "images": 'None'}
