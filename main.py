@@ -6,7 +6,8 @@ from src.routes import auth, users, access, document
 
 from src.conf.config import settings
 
-app = FastAPI()
+
+app = FastAPI() #create a FastAPI instance
 
 app.include_router(auth.router, prefix='/api')
 app.include_router(users.router, prefix='/api')

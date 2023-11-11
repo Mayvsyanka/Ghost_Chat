@@ -65,3 +65,12 @@ class UserResponse(BaseModel):
 
 class RequestEmail(BaseModel):
     email: EmailStr
+    
+    
+# #file schema
+class FileModel(BaseModel):
+    id: int
+    # user_id: int
+    file_name: str
+    file_created_at: datetime
+    
