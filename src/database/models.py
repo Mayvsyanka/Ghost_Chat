@@ -23,3 +23,12 @@ class User(Base):
     roles = Column('roles', Enum(Role), default=Role.user)
     access = Column(Boolean, default=True)
 
+class VectorStore(Base):
+    __tablename__ = 'vector_stores'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(50), unique=True)
+    url = Column(String, unique=True)
+    created_at = Column(DateTime, default=func.now())
+    updated_at = Column(DateTime, onupdate=func.now(), nullable=True)
+    user_id = Column(ForeignKey("users.id", ondelete="CASCADE"))
+    user = relationship(User, backref="vector_stores")

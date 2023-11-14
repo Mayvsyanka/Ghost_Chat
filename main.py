@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 
-from src.routes import auth, users, access, document
+from src.routes import auth, users, access, document, vectorstore
 
 from src.conf.config import settings
 
@@ -12,6 +12,7 @@ app.include_router(auth.router, prefix='/api')
 app.include_router(users.router, prefix='/api')
 app.include_router(access.router, prefix='/api')
 app.include_router(document.router, prefix='/api')
+app.include_router(vectorstore.router, prefix='/api')
 
 
 @app.get("/", tags=["Root"])

@@ -65,3 +65,11 @@ class UserResponse(BaseModel):
 
 class RequestEmail(BaseModel):
     email: EmailStr
+
+class Vectorstore(BaseModel):
+    id: int = 1
+    name: str
+    url: str
+    user_id: int
+    user: str
+    created_at: datetime
