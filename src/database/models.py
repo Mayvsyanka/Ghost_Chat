@@ -13,8 +13,6 @@ class User(Base):
     id = Column(Integer, primary_key=True)
     username = Column(String(50), unique=True)
     email = Column(String(250), nullable=False, unique=True)
-    bio = Column(String(500))
-    location = Column(String(500))
     password = Column(String(255), nullable=False)
     crated_at = Column('crated_at', DateTime, default=func.now())
     avatar = Column(String(255), nullable=True)

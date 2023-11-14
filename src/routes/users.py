@@ -79,6 +79,4 @@ async def get_profile(username: str, _: User = Depends(auth_service.get_current_
             "email": user_info.email,
             "crated_at": user_info.crated_at,
             "avatar": user_info.avatar,
-            "bio": user_info.bio,
-            "location": user_info.location,
             "images": 'None'}
