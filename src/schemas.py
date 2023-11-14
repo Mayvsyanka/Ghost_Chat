@@ -2,6 +2,7 @@ import enum
 from datetime import datetime
 from pydantic import BaseModel, Field
 from typing import List, Optional, Dict
+from fastapi import WebSocket, WebSocketDisconnect
 
 from datetime import date, datetime
 
@@ -59,3 +60,22 @@ class UserResponse(BaseModel):
 
 class RequestEmail(BaseModel):
     email: EmailStr
+
+
+class WebSocketManager:
+    def __init__(self):
+        self.active_connections = set()
+
+
+class FileModel(BaseModel):
+    id: int
+    # user_id: int
+    file_name: str
+    file_created_at: datetime
+
+
+class FileResponse(BaseModel):
+    id: int
+    data: bytes
+    user_id: int
+    file_created_at: datetime

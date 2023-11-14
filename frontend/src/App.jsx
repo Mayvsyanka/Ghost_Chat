@@ -11,7 +11,7 @@ const App = () => {
   const [token,] = useContext(UserContext);
   const [showLogin, setShowLogin] = useState(false);
   const [showSignUp, setShowSignUp] = useState(false);
-  const [showForgotPassword,] = useState(false);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
 
   const getWelcomeMessage = async () => {
     const requestOptions = {
@@ -34,6 +34,12 @@ const App = () => {
     getWelcomeMessage()
   }, []);
 
+  const handleForgotPasswordClick = () => {
+  setShowSignUp(false);
+  setShowLogin(false);
+  setShowForgotPassword(true);
+};
+
   return (
     <><div className="has-text-centered is-large m-6">
       <Header title={message} /></div>
@@ -45,14 +51,16 @@ const App = () => {
         <div className="column m-5 is-two-thirds">
           {!token ? (
             <>
-              <div className="buttons is-flex is-justify-content-center mt-1">
-                <div className="button is-info is-large mr-6" onClick={() => {setShowSignUp(false); setShowLogin(true)}}>
-                  Login
+              {!showForgotPassword && (  // Показываем кнопки только если showForgotPassword равен false
+                <div className="buttons is-flex is-justify-content-center mt-1">
+                  <div className="button is-info is-large mr-6" onClick={() => { setShowSignUp(false); setShowLogin(true)}}>
+                    Login
+                  </div>
+                  <div className="button is-info is-large" onClick={() => { setShowSignUp(true); setShowLogin(false)}}>
+                    SignUp
+                  </div>
                 </div>
-                <div className="button is-info is-large" onClick={() => { setShowSignUp(true); setShowLogin(false)}}>
-                  SignUp
-                </div>
-              </div>
+              )}
               {showLogin && <Login />}
               {showSignUp && <Register />}
               {showForgotPassword && <ForgotPassword />}

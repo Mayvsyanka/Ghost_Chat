@@ -36,13 +36,13 @@ const ForgotPassword = () => {
     <div>
       {showForm ? (
         <form onSubmit={handleSubmit}>
-          <label>Email:</label>
+          <label style={{ color: 'DarkBlue' }}>Email:</label>
           <input            type="email"
                             placeholder="Enter email"
                             value={email}
                             onChange={handleEmailChange} required
                             className="input"/>
-          <button className="button is-warning is-text is-light mt-1" type="submit">Submit</button>
+          <button className="button is-info is-text is-light mt-1" type="submit">Submit</button>
         </form>
       ) : (
         <p>{message}</p>
