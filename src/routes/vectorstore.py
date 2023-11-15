@@ -11,10 +11,10 @@ from src.schemas import Vectorstore
 router = APIRouter(prefix="/vectorstore", tags=["vectorstore"])
 
 @router.get('/', response_model=List[Vectorstore])
-def get_vectorstores(db: Session = Depends(get_db),
+async def get_vectorstores(db: Session = Depends(get_db),
                            current_user: User = Depends(get_current_user)):
 
-    vector_stores = repo_vectorstores.get_all_vectorstores(db, current_user)
+    vector_stores = await repo_vectorstores.get_all_vectorstores(db, current_user)
 
     if not vector_stores:
         raise HTTPException(
@@ -25,11 +25,11 @@ def get_vectorstores(db: Session = Depends(get_db),
     return vector_stores
 
 @router.get('/{name}', response_model=Vectorstore)
-def get_vectorstore_by_name(name: str,
+async def get_vectorstore_by_name(name: str,
                                   db: Session = Depends(get_db),
                                   current_user: User = Depends(get_current_user)):
 
-    vector_store = repo_vectorstores.get_vectorstore_by_name(name, db, current_user)
+    vector_store = await repo_vectorstores.get_vectorstore_by_name(name, db, current_user)
 
     if not vector_store:
         raise HTTPException(
