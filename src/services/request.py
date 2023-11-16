@@ -1,22 +1,39 @@
-#v2
 from langchain import OpenAI
 from langchain.chains.question_answering import load_qa_chain
-from langchain.callbacks import CallbackManager, get_openai_callback
-from langchain.documents import Document
+
+from langchain.embeddings import OpenAIEmbeddings
+from langchain.vectorstores import FAISS
+
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+if "OPENAI_API_KEY" not in os.environ:
+    os.environ["OPENAI_API_KEY"] = input("OpenAI API Key: ")
+
+def load_vectorstore(file_path):
+    
+    with open(file_path, "rb") as f:
+        vectorstore_bytes = f.read()
+
+    embeddings = OpenAIEmbeddings()  
+    vectorstore = FAISS.deserialize_from_bytes(vectorstore_bytes, embeddings)
+
+    return vectorstore
 
 def request_answer_from_llm(vectorstore, question):
+    
+    if question:
+        doc = vectorstore.similarity_search(query=question, k=3)
 
-    callback_manager = CallbackManager([get_openai_callback()])
-    llm = OpenAI(temperature=0.7, 
-                 callbacks=callback_manager) #Ініціалізується модель мови OpenAI, temperature - креативність відповіді 
+        llm = OpenAI(temperature=0.7)
+        chain = load_qa_chain(llm=llm, chain_type="stuff")
 
-    chain = load_qa_chain(llm=llm, 
-                          chain_type="stuff")# завантажується ланцюг відповідей на питання
-
-    docs = [Document(page_content=doc) for doc in vectorstore.similarity_search(query=question, k=3)]#Виконується пошук подібності за допомогою vectorstore та введеного question
-
-
-    response = chain.run(input_documents=docs, 
-                         question=question)#Запускається ланцюг відповідей
+        response = chain.run(input_documents=doc, question=question)
+        return response
 
     return response
+
+
+

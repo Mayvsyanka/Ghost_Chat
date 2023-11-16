@@ -2,8 +2,9 @@ from fastapi import WebSocket, WebSocketDisconnect
 from sqlalchemy.orm import Session
 import os
 import pickle
+from src.database.models import File
 
-from src.services.request import request_answer_from_llm
+from src.services.request import request_answer_from_llm, load_vectorstore
 
 class WebSocketManager:
     def __init__(self):
@@ -23,18 +24,13 @@ class WebSocketManager:
         answer = generate_answer(question)
         await websocket.send_text(f"Bot: {answer}")
 
-    def generate_answer(self, db: Session, question: str, ) -> str:
+    def generate_answer(self, db: Session, question: str,  ) -> str:
         #код для генерації відповіді за допомогою нейромережі
-        
-        #завантаження vectorstore та питання до request_answer_from_llm
-        cwd = os.getcwd()
-        for file in os.listdir(cwd):
-            if file.endswith(".pkl"):
-                vectorstore_path = os.path.join(cwd, file)
+        file_name = None #отримати через бд
+        path_to_vectorstore ="src/store/"+ file_name +".pkl"
+    
+        vectorstore = load_vectorstore(path_to_vectorstore)
 
-        with open(vectorstore_path, "rb") as f:
-            vectorstore = pickle.load(f)
-
-        answer, cb = request_answer_from_llm(vectorstore, question)
+        answer = request_answer_from_llm(vectorstore, question)
         
         return answer

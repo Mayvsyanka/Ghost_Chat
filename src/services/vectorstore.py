@@ -1,9 +1,6 @@
-import pickle
-
-from langchain.embeddings.openai import OpenAIEmbeddings
+from langchain.embeddings import OpenAIEmbeddings 
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.vectorstores import FAISS
-from langchain.document_loaders import PyPDFLoader
 import os
 from dotenv import load_dotenv
 
@@ -21,10 +18,13 @@ async def doc_to_vectorstore(file_content, file_path):
     chunks = text_splitter.split_documents(documents=file_content)
 
     embeddings = OpenAIEmbeddings()
-    vectorstore = FAISS.from_documents(chunks, embeddings)
+    db = FAISS.from_documents(chunks, embeddings)
+    vectorstore = db.serialize_to_bytes() 
 
-    with open(f"{file_path[:-4]}.pkl", "wb") as f:
-        pickle.dump(vectorstore, f)
-
+    output_folder = 'src/store'
+    with open(os.path.join(output_folder, f"{os.path.basename(file_path)[:-4]}.pkl"), "wb") as f:
+        f.write(vectorstore)
+        print("Done!")
+    
     return vectorstore
 

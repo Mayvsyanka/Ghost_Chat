@@ -32,3 +32,6 @@ class VectorStore(Base):
     updated_at = Column(DateTime, onupdate=func.now(), nullable=True)
     user_id = Column(ForeignKey("users.id", ondelete="CASCADE"))
     user = relationship(User, backref="vector_stores")
+
+class File(Base):
+    pass
