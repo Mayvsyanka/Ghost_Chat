@@ -67,7 +67,17 @@ const App = () => {
               {showForgotPassword && <ForgotPassword />}
             </>
           ) : (
-            <FileUpload /> 
+              <>
+                <h1 class="title has-text-centered">Choose file type</h1>
+                  <div className="buttons is-flex is-justify-content-center mt-1">
+                    <div className="button is-info is-large mr-6" onClick={() => { setShowSignUp(false); setShowLogin(true)}}>
+                      Documents
+                    </div>
+                    <div className="button is-info is-large mr-6" onClick={() => { setShowSignUp(false); setShowLogin(true)}}>
+                      Audio
+                    </div>
+                  </div>
+              </>
           )}
         </div>
         <div className="column"></div>

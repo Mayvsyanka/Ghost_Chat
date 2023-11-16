@@ -61,3 +61,47 @@ async def download_file(file_id: int, db: Session = Depends(get_db)):
     file_upload = db.query(File).filter(File.id == file_id).first()
     # return the file data
     return file_upload.data
+
+
+#get file name and created date from database
+@router.get("/getfile/{file_id}")
+async def get_file(file_id: int, db: Session = Depends(get_db)):
+    """
+    The get_file function is used to get a file from the database.
+    It takes in a file_id, which is the id of the file to be retrieved, and a database session.
+    It then queries the database for the file with that id, and returns it.
+    :param file_id: Get the id of the file to be retrieved
+    :type file_id: int
+    :param db: Get the database session from the dependency injection
+    :type db: Session
+    :return: A dictionary with the name and data of the file
+    :rtype: dict
+    """
+    # query the database for the file with the given id
+    file_upload = db.query(File).filter(File.id == file_id).first()
+    # return the file
+    return {"name": file_upload.name, "data": file_upload.data}
+
+
+# delete file from database
+@router.delete("/deletefile/{file_id}")
+async def delete_file(file_id: int, db: Session = Depends(get_db)):
+    """
+    The delete_file function is used to delete a file from the database.
+    It takes in a file_id, which is the id of the file to be deleted, and a database session.
+    It then queries the database for the file with that id, and deletes it.
+    :param file_id: Get the id of the file to be deleted
+    :type file_id: int
+    :param db: Get the database session from the dependency injection
+    :type db: Session
+    :return: A dictionary with a message key
+    :rtype: dict
+    """
+    # query the database for the file with the given id
+    file_upload = db.query(File).filter(File.id == file_id).first()
+    # delete the file
+    db.delete(file_upload)
+    # commit the changes to the database
+    db.commit()
+    # return a message
+    return {"message": "File deleted successfully"}

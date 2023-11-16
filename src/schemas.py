@@ -72,10 +72,3 @@ class FileModel(BaseModel):
     # user_id: int
     file_name: str
     file_created_at: datetime
-
-
-class FileResponse(BaseModel):
-    id: int
-    data: bytes
-    user_id: int
-    file_created_at: datetime
