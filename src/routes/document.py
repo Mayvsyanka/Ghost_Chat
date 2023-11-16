@@ -62,7 +62,7 @@ async def download_file(file_id: int, db: Session = Depends(get_db)):
     # return the file data
     return file_upload.data
 
-
+'''
 #get file name and created date from database
 @router.get("/getfile/{file_id}")
 async def get_file(file_id: int, db: Session = Depends(get_db)):
@@ -84,6 +84,7 @@ async def get_file(file_id: int, db: Session = Depends(get_db)):
 
 
 # delete file from database
+
 @router.delete("/deletefile/{file_id}")
 async def delete_file(file_id: int, db: Session = Depends(get_db)):
     """
@@ -105,3 +106,4 @@ async def delete_file(file_id: int, db: Session = Depends(get_db)):
     db.commit()
     # return a message
     return {"message": "File deleted successfully"}
+    '''
