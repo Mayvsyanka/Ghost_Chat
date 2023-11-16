@@ -9,11 +9,11 @@ from src.services.auth import auth_service
 from src.schemas import FileModel, UserDb, UpdateUser, Profile
 from src.conf.config import settings
 from src.services.roles import allowed_operation_admin
+#from src.repository.Speech2text import speech2text
+
 
 
 router = APIRouter(prefix="/document", tags=["document"])
-
-# define a function for uploading documents
 
 
 @router.post("/uploadfile/")
