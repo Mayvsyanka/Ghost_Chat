@@ -1,9 +1,9 @@
-from fastapi import APIRouter, Depends, status, UploadFile, File
+from fastapi import APIRouter, Depends, status, UploadFile
 from sqlalchemy.orm import Session
 from sqlalchemy import func
 
 from src.database.db import get_db
-from src.database.models import User
+from src.database.models import File, User
 from src.repository import users as repository_users
 from src.services.auth import auth_service
 from src.schemas import FileModel, UserDb, UpdateUser, Profile
@@ -32,14 +32,14 @@ async def create_upload_file(file: UploadFile = File(), db: Session = Depends(ge
     # read the contents of the file
     contents = await file.read()
     # create new file upload record
-    file_upload = FileModel(name=file.filename, data=contents)
+    file_upload = File(file_name=file.filename, data=contents)
     # add the new file record to the database
     db.add(file_upload)
     # commit the changes to the database
     db.commit()
     # return a message
 
-    return {"filename": file.filename}
+    return {"filename": f'{file.filename} load succesfully'}
 
 # define a function for downloading documen
 
@@ -58,6 +58,6 @@ async def download_file(file_id: int, db: Session = Depends(get_db)):
     :rtype: bytes
     """
     # query the database for the file with the given id
-    file_upload = db.query(FileModel).filter(FileModel.id == file_id).first()
+    file_upload = db.query(File).filter(File.id == file_id).first()
     # return the file data
     return file_upload.data

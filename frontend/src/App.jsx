@@ -5,6 +5,7 @@ import { UserContext } from "./context/UserContext";
 import Header from "./components/Header";
 import Login from "./components/Login";
 import ForgotPassword from "./components/ForgotPassword";
+import FileUpload from "./components/FileUploader";
 
 const App = () => {
   const [message, setMessage] = useState("");
@@ -66,7 +67,7 @@ const App = () => {
               {showForgotPassword && <ForgotPassword />}
             </>
           ) : (
-            <p>Тут буде взаємодія Користувача з нашою NN</p>
+            <FileUpload /> 
           )}
         </div>
         <div className="column"></div>

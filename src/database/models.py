@@ -22,6 +22,7 @@ class User(Base):
     confirmed = Column(Boolean, default=False)
     roles = Column('roles', Enum(Role), default=Role.user)
     access = Column(Boolean, default=True)
+    files = relationship("File", back_populates="user")
 
 
 class File(Base):

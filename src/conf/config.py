@@ -4,10 +4,10 @@ from pydantic import BaseSettings
 
 
 class Settings(BaseSettings):
-    POSTGRES_DB: str
-    POSTGRES_USER: str
-    POSTGRES_PASSWORD: str
-    POSTGRES_PORT: str
+    #POSTGRES_DB: str
+    #POSTGRES_USER: str
+    #POSTGRES_PASSWORD: str
+    #POSTGRES_PORT: str
     sqlalchemy_database_url: str
     secret_key: str
     algorithm: str
