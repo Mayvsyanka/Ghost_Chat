@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 import os
 from src.services.chat import WebSocketManager
 
-# from src.database.models import Document
+
 
 from src.conf.config import settings
 
@@ -14,7 +14,6 @@ router = APIRouter(prefix='/chat', tags=["Chat"])
 security = HTTPBearer()
 
 manager = WebSocketManager()
-
 
 @router.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
@@ -30,3 +29,4 @@ async def websocket_endpoint(websocket: WebSocket):
     except WebSocketDisconnect:
         manager.disconnect(websocket)
         await manager.notify("User left the chat.")
+

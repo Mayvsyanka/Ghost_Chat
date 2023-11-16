@@ -6,6 +6,11 @@ class WebSocketManager:
     def __init__(self):
         self.active_connections = set()
 
+
+class WebSocketManager:
+    def __init__(self):
+        self.active_connections = set()
+
     async def connect(self, db: Session, websocket: WebSocket):
         await websocket.accept()
         self.active_connections.add(websocket)
@@ -16,12 +21,13 @@ class WebSocketManager:
     async def notify(self, db: Session, message: str):
         for connection in self.active_connections:
             await connection.send_text(message)
-    
-    def generate_answer(self, db: Session, question: str) -> str:
-        # код для генерації відповіді за допомогою нейромережі
-        answer = 'yes'
-        return answer
+
 
     async def process_question(self, db: Session, websocket: WebSocket, question: str):
-        answer = self.generate_answer(question)
+        answer = generate_answer(question)
         await websocket.send_text(f"Bot: {answer}")
+
+    def generate_answer(self, db: Session, question: str) -> str:
+        #код для генерації відповіді за допомогою нейромережі
+        answer = 'yes'
+        return answer
