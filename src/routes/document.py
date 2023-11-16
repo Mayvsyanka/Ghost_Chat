@@ -17,7 +17,7 @@ router = APIRouter(prefix="/document", tags=["document"])
 
 
 @router.post("/uploadfile/")
-async def create_upload_file(file: UploadFile = File(), db: Session = Depends(get_db)):
+async def create_upload_file(file: UploadFile, db: Session = Depends(get_db)):
     """
     The create_upload_file function is used to upload a file to the database.
     It takes in a file object, which contains the data of the file, and a database session.
