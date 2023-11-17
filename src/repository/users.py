@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 
 from src.database.models import User
 from src.schemas import UserModel, Role
+from fastapi import HTTPException
 
 
 async def get_user_by_email(email: str, db: Session) -> User:
@@ -135,6 +136,74 @@ async def get_user_info(email, db):
     :doc-author: Trelent
     """
     return db.query(User).filter(User.username == email).first()
-    
 
 
+async def update_reset_token(user_id: int, reset_token: str | None, db: Session) -> None:
+    """
+    The update_reset_token function updates the reset token for a user.
+
+    :param user_id: Identify the user that is being updated
+    :type user_id: int
+    :param reset_token: Set the reset token for a user
+    :type reset_token: str | None
+    :param db: Commit the changes to the database
+    :type db: Session
+    :return: None
+    """
+    user = db.query(User).filter(User.id == user_id).first()
+    user.reset_token = reset_token
+    db.commit()
+
+
+async def get_user_by_reset_token(reset_token: str, db: Session) -> User:
+    """
+    The get_user_by_reset_token function takes in a reset token and a database session, then returns the user with that reset token.
+
+    :param reset_token: Pass the reset token
+    :type reset_token: str
+    :param db: Pass the database session to the function
+    :type db: Session
+    :return: User with given reset token
+    :rtype: User
+    """
+    return db.query(User).filter(User.reset_token == reset_token).first()
+
+
+async def update_password(user_id: int, hashed_password: str, db: Session) -> None:
+    """
+    The update_password function updates the password for a user.
+
+    :param user_id: Identify the user that is being updated
+    :type user_id: int
+    :param hashed_password: Set the hashed password for a user
+    :type hashed_password: str
+    :param db: Commit the changes to the database
+    :type db: Session
+    :return: None
+    """
+    user = db.query(User).filter(User.id == user_id).first()
+    user.password = hashed_password
+    db.commit()
+
+
+async def update_password(user_id: int, hashed_password: str, db: Session):
+    """
+    Update the user's password in the database.
+
+    :param user_id: The ID of the user whose password needs to be updated.
+    :type user_id: int
+    :param hashed_password: The hashed new password.
+    :type hashed_password: str
+    :param db: The database session.
+    :type db: sqlalchemy.orm.Session
+    :return: None
+    :rtype: None
+    """
+    user = db.query(User).filter(User.id == user_id).first()
+
+    if user:
+        user.password = hashed_password
+        db.commit()
+        db.refresh(user)
+    else:
+        raise HTTPException(status_code=404, detail="User not found")
