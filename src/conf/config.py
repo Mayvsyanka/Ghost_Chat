@@ -20,6 +20,7 @@ class Settings(BaseSettings):
     cloudinary_name: str
     cloudinary_api_key: str
     cloudinary_api_secret: str
+    OPENAI_API_KEY: str
 
 
     class Config:

@@ -26,7 +26,7 @@ if not os.path.exists(UPLOAD_DIR):
 
 
 @router.websocket('/chat')
-async def websocket_endpoint(websocket: WebSocket):
+async def websocket_endpoint(websocket: WebSocket,  db: Session = Depends(get_db)):
     await ws_manager.connect(websocket)
     file_received = False
 
@@ -46,7 +46,7 @@ async def websocket_endpoint(websocket: WebSocket):
                         await save_received_file(received_file, file_path)
                         question = await websocket.receive_text()
                         vectorstore = await doc_to_vectorstore(file_path)
-                        answer = await request_answer_from_llm(vectorstore, question)
+                        answer = request_answer_from_llm(vectorstore, question)
                         await websocket.send_text(f"{question}<br><br> {answer}")
                 except Exception as e:
                     await websocket.send_text(f"Error processing file - {str(e)}")

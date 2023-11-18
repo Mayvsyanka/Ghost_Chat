@@ -12,7 +12,7 @@ load_dotenv()
 if "OPENAI_API_KEY" not in os.environ:
     os.environ["OPENAI_API_KEY"] = input("OpenAI API Key: ")
 
-os.environ["OPENAI_API_KEY"] = "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"
+os.environ["OPENAI_API_KEY"] = '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'
 
 def load_vectorstore(file_path):
     with open(file_path, "rb") as f:
@@ -25,6 +25,8 @@ def load_vectorstore(file_path):
 
 
 def request_answer_from_llm(vectorstore, question):
+    embeddings = OpenAIEmbeddings()
+    vectorstore = FAISS.deserialize_from_bytes(vectorstore, embeddings)
     if question:
         doc = vectorstore.similarity_search(query=question, k=3)
 
