@@ -15,34 +15,7 @@ from src.services.roles import allowed_operation_admin
 
 router = APIRouter(prefix="/document", tags=["document"])
 
-
-@router.post("/uploadfile/")
-async def create_upload_file(file: UploadFile, db: Session = Depends(get_db)):
-    """
-    The create_upload_file function is used to upload a file to the database.
-    It takes in a file object, which contains the data of the file, and a database session.
-    It then creates a new file object, and adds it to the database.
-    :param file: Get the file from the request body
-    :type file: UploadFile
-    :param db: Get the database session from the dependency injection
-    :type db: Session
-    :return: A dictionary with a message key
-    :rtype: str
-    """
-    # read the contents of the file
-    contents = await file.read()
-    # create new file upload record
-    file_upload = File(file_name=file.filename, data=contents)
-    # add the new file record to the database
-    db.add(file_upload)
-    # commit the changes to the database
-    db.commit()
-    # return a message
-
-    return {"filename": f'{file.filename} load succesfully'}
-
 # define a function for downloading documen
-
 
 @router.get("/downloadfile/{file_id}")
 async def download_file(file_id: int, db: Session = Depends(get_db)):
