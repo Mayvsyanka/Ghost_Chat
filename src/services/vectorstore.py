@@ -7,8 +7,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-if "OPENAI_API_KEY" not in os.environ:
-    os.environ["OPENAI_API_KEY"] = input("OpenAI API Key: ")
 
 async def doc_to_vectorstore(file_path):
     loader = PyPDFLoader(file_path)

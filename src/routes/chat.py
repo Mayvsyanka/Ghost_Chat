@@ -10,7 +10,7 @@ import os
 from src.database.db import get_db
 from src.services.chat import WebSocketManager
 from src.services.document import save_received_file
-from src.services.request import load_vectorstore, request_answer_from_llm
+from src.services.request import request_answer_from_llm
 from src.services.vectorstore import doc_to_vectorstore
 from src.html.chat import html
 
@@ -46,7 +46,7 @@ async def websocket_endpoint(websocket: WebSocket):
                         await save_received_file(received_file, file_path)
                         question = await websocket.receive_text()
                         vectorstore = await doc_to_vectorstore(file_path)
-                        answer = await ws_manager.generate_answer(question)
+                        answer = await request_answer_from_llm(vectorstore, question)
                         await websocket.send_text(f"{question}<br><br> {answer}")
                 except Exception as e:
                     await websocket.send_text(f"Error processing file - {str(e)}")
