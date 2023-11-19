@@ -13,7 +13,9 @@ from sqlalchemy.orm import Session
 from src.database.db import get_db
 from src.repository import users as repository_users
 
-from src.conf.config import settings
+from src.conf.config import Settings
+
+settings = Settings()
 
 class Auth:
     pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")

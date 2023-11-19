@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 
 from src.routes import auth, users, access, document, chat, audio
-from src.conf.config import settings
+#from src.conf.config import settings
 
 app = FastAPI()
 
