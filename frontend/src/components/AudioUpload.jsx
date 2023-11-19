@@ -1,47 +1,51 @@
 import React, { useState } from 'react';
 
 const AudioUpload = () => {
-    const [selectedAudio, setSelectedAudio] = useState(null);
+  const [fileRoute, setFileRoute] = useState('');
+  const [transcription, setTranscription] = useState('');
 
-    const handleAudioChange = (e) => {
-        setSelectedAudio(e.target.files[0]);
-    };
+  const handleFileRouteChange = (event) => {
+    setFileRoute(event.target.value);
+  };
 
-    const handleUpload = async () => {
-        if (!selectedAudio) {
-            alert('Please select a file.');
-            return;
-        }
+  const handleTranscription = async () => {
+    if (!fileRoute.trim()) {
+      console.log('Part to your file');
+      return;
+    }
 
-        const formData = new FormData();
-        formData.append('file', selectedAudio);
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/api/audio/audio?route=${encodeURIComponent(fileRoute)}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
-        try {
-            const response = await fetch('http://localhost:8000/api/document/audio/', {
-                method: 'POST',
-                body: formData,
-            });
+      if (response.ok) {
+        const result = await response.json();
+        setTranscription(result);
+      } else {
+        console.error('Ошибка при транскрипции аудио');
+      }
+    } catch (error) {
+      console.error('Ошибка при транскрипции аудио', error);
+    }
+  };
 
-            if (response.ok) {
-                const data = await response.json();
-                console.log('File uploaded successfully:', data);
-            } else {
-                console.error('File upload failed.');
-            }
-        } catch (error) {
-            console.error('An error occurred during file upload:', error);
-        }
-    };
-
-    return (
-        <div className="has-text-centered mt-4">
-            <div>
-                <h2>Audio Upload</h2>
-                <input type="file" onChange={handleAudioChange} />
-                <button onClick={handleUpload}>Upload</button>
-            </div>
+  return (
+    <div>
+      <h1>Download your file</h1>
+      <input type="text" value={fileRoute} onChange={handleFileRouteChange} placeholder="Route to file" />
+      <button onClick={handleTranscription}>Convert audio</button>
+      {transcription && (
+        <div>
+          <h2>Result</h2>
+          <p>{transcription}</p>
         </div>
-    );
-}
+      )}
+    </div>
+  );
+};
 
 export default AudioUpload;

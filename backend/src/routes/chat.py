@@ -26,7 +26,7 @@ if not os.path.exists(UPLOAD_DIR):
 
 
 @router.websocket('/chat')
-async def websocket_endpoint(websocket: WebSocket,  db: Session = Depends(get_db)):
+async def websocket_endpoint(websocket: WebSocket):
     await ws_manager.connect(websocket)
     file_received = False
 
@@ -45,10 +45,14 @@ async def websocket_endpoint(websocket: WebSocket,  db: Session = Depends(get_db
                         file_received = True
                         await websocket.send_text("Thank you! Now you can ask your question.")
                         await save_received_file(received_file, file_path)
-                        question = await websocket.receive_text()
-                        vectorstore = await doc_to_vectorstore(file_path)
-                        answer = request_answer_from_llm(vectorstore, question)
-                        await websocket.send_text(f"{question}<br><br> {answer}")
+                        while True:
+                            question = await websocket.receive_text()
+                            if question == "disconnect":
+                                await websocket.send_text("Disconnected")
+                                ws_manager.disconnect(websocket)
+                            vectorstore = await doc_to_vectorstore(file_path)
+                            answer = request_answer_from_llm(vectorstore, question)
+                            await websocket.send_text(f"You: {question}<br><br> ZEN-BOT: {answer}")
                 except Exception as e:
                     await websocket.send_text(f"Error processing file - {str(e)}")
 
@@ -71,6 +75,7 @@ async def websocket_endpoint(websocket: WebSocket,  db: Session = Depends(get_db
 
 @router.get('/chat', response_class=HTMLResponse)
 async def get():
-    return HTMLResponse(html)
+    html_content = html
+    return HTMLResponse(content=html_content)
 
 

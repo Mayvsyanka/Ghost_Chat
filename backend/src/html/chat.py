@@ -25,6 +25,7 @@ html = """
             background-color: #3498db;
             color: white;
             cursor: pointer;
+            borderRadius: '5px'
         }
 
         #questionInput {
@@ -47,6 +48,7 @@ html = """
             vertical-align: top; 
             margin-top: 20px;
             margin-left: 20px; 
+            borderRadius: '5px'
         }
 
         #disconnectButton {
@@ -58,6 +60,7 @@ html = """
             background-color: #e74c3c;
             color: white;
             cursor: pointer;
+            borderRadius: '5px'
         }
 
         #output {
@@ -92,6 +95,7 @@ html = """
         const socket = new WebSocket('ws://127.0.0.1:8000/api/chat');
 
         document.getElementById('disconnectButton').addEventListener('click', function() {
+        window.location.href = 'http://127.0.0.1:3000/';
         socket.send('disconnect');
         });
 

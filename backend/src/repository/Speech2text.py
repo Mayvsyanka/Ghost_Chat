@@ -4,6 +4,8 @@ from transformers import SpeechT5Processor, SpeechT5ForSpeechToText
 
 async def speech2text(file_path):
 
+    print("start")
+
     waveform, original_sample_rate = librosa.load(
         file_path, sr=None, mono=True)
 

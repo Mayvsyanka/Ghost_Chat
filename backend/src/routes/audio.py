@@ -13,7 +13,7 @@ from src.repository.Speech2text import speech2text
 
 router = APIRouter(prefix="/audio", tags=["audio"])
 
-@router.get('/audio')
-async def audio(file:UploadFile):
-    text = await speech2text(file.filename)
+@router.post('/audio')
+async def audio(route:str):
+    text = await speech2text(route)
     return(text)
