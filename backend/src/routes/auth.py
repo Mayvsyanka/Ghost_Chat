@@ -110,7 +110,7 @@ async def request_password_reset(body: RequestEmail, background_tasks: Backgroun
     user = await repository_users.get_user_by_email(body.email, db)
     if user:
 
-        base_url = "http://127.0.0.1:8000/api/auth"  # Замени на свой base_url
+        base_url = "http://127.0.0.1:8000/api/auth"  
         link = f"{base_url}/reset-password/reset/{user.email}"
 
         background_tasks.add_task(send_email_forgot, user.email, link)
@@ -137,5 +137,5 @@ async def reset_password(email: str, new_password: str = Form(...), db: Session 
     hashed_password = auth_service.get_password_hash(new_password)
     await repository_users.update_password(user.id, hashed_password, db)
 
-    redirect_url = "http://127.0.0.1:3000"  # Замените на свой URL
+    redirect_url = "http://127.0.0.1:3000"  
     return RedirectResponse(url=redirect_url, status_code=status.HTTP_303_SEE_OTHER)

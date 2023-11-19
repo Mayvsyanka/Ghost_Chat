@@ -33,13 +33,15 @@ const FileUpload = () => {
     }
   };
 
-  return (
-    <div>
-      <h2>File Upload</h2>
-      <input type="file" onChange={handleFileChange} />
-      <button onClick={handleUpload}>Upload</button>
-    </div>
-  );
-};
+    return (
+        <div className="has-text-centered mt-4">
+            <div>
+                <h2>File Upload</h2>
+                <input type="file" onChange={handleFileChange} />
+                <button onClick={handleUpload}>Upload</button>
+            </div>
+        </div>
+    );
+}
 
 export default FileUpload;

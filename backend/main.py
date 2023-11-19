@@ -2,17 +2,10 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 
-from src.routes import auth, users, access, document, chat
-from src.conf.config import Settings
+from src.routes import auth, users, access, document, chat, audio
+from src.conf.config import settings
 
-settings = Settings()
-
-
-app = FastAPI(
-    title="PDF-chat API",
-    description="API for PDF-chat application",
-    version="1.0.0",
-)
+app = FastAPI()
 
 
 app.include_router(auth.router, prefix='/api')
@@ -20,6 +13,7 @@ app.include_router(users.router, prefix='/api')
 app.include_router(access.router, prefix='/api')
 app.include_router(document.router, prefix='/api')
 app.include_router(chat.router, prefix='/api')
+app.include_router(audio.router, prefix='/api')
 
 
 origins = ["*"]
@@ -37,7 +31,6 @@ def root():
     return {"message": "Ghost Application"}
 
 
-
 @app.get("/", tags=["Root"])
 def read_root():
     """
@@ -49,5 +42,3 @@ def read_root():
     """
 
     return {"message": "Welcome to PDF-chat"}
-
-

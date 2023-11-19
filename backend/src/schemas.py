@@ -61,11 +61,11 @@ class UserResponse(BaseModel):
 class RequestEmail(BaseModel):
     email: EmailStr
 
-
-class WebSocketManager:
-    def __init__(self):
-        self.active_connections = set()
-
+#
+#class WebSocketManager:
+#    def __init__(self):
+#        self.active_connections = set()
+#
 
 class FileModel(BaseModel):
     id: int
