@@ -25,7 +25,8 @@ html = """
             background-color: #3498db;
             color: white;
             cursor: pointer;
-            borderRadius: '5px'
+            borderRadius: 60px;
+            display: inline-block;
         }
 
         #questionInput {
@@ -48,7 +49,7 @@ html = """
             vertical-align: top; 
             margin-top: 20px;
             margin-left: 20px; 
-            borderRadius: '5px'
+            borderRadius: 5px
         }
 
         #disconnectButton {
@@ -60,7 +61,7 @@ html = """
             background-color: #e74c3c;
             color: white;
             cursor: pointer;
-            borderRadius: '5px'
+            border-radius: 100px;
         }
 
         #output {
@@ -88,7 +89,7 @@ html = """
     <textarea id="questionInput" placeholder="Type your question..."></textarea>
     <button onclick="sendQuestion()" id="sendQuestionButton">Send Question to Ghost</button>
     <br>
-    <button id="disconnectButton">I feel disconnected</button>
+    <button id="disconnectButton">Home page</button>
     <div id="output"></div>
 
     <script>
