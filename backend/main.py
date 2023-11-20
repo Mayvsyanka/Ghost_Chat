@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 
-from src.routes import auth, users, access, document, chat, audio
+from src.routes import auth, users, access, document, chat, audio, history
 #from src.conf.config import settings
 
 app = FastAPI()
@@ -14,7 +14,7 @@ app.include_router(access.router, prefix='/api')
 app.include_router(document.router, prefix='/api')
 app.include_router(chat.router, prefix='/api')
 app.include_router(audio.router, prefix='/api')
-
+app.include_router(history.router, prefix='/api')
 
 origins = ["*"]
 
