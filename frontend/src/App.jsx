@@ -7,6 +7,7 @@ import Login from "./components/Login";
 import ForgotPassword from "./components/ForgotPassword";
 import FileUpload from "./components/FileUploader";
 import AudioUpload from "./components/AudioUpload";
+import Home from "./components/Home";
 
 const App = () => {
   const [message, setMessage] = useState("");
@@ -15,7 +16,8 @@ const App = () => {
   const [showSignUp, setShowSignUp] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [showFileUpload, setShowFileUpload] = useState(false);
-  const [showAudioUpload, setShowAudioUpload] = useState(false)
+  const [showAudioUpload, setShowAudioUpload] = useState(false);
+  const [showHomeUpload, setShowUpload] = useState(false)
 
   const getWelcomeMessage = async () => {
     const requestOptions = {
@@ -61,25 +63,28 @@ const App = () => {
   
 
   return (
-    <><div className="has-text-centered is-large m-6">
-      <Header title={message} /></div>
-      <figure class="image is-flex is-justify-content-center">
-        <img src="https://i.ibb.co/tp1Q4Y2/Ghostgam.jpg" style={{ maxWidth: '300px', width: '100%' }}/>
-      </figure>
+    <>
       <div className="columns">
         <div className="column"></div>
         <div className="column m-5 is-two-thirds">
           {!token ? (
             <>
-              {!showForgotPassword && (  // Показываем кнопки только если showForgotPassword равен false
-                <div className="buttons is-flex is-justify-content-center mt-1">
+              {!showForgotPassword && (
+                <>
+                  <div className="has-text-centered is-large m-6">
+                  <h1 className="title">Ghost-zen App</h1></div>
+                  <figure class="image is-flex is-justify-content-center">
+                    <img src="https://i.ibb.co/tp1Q4Y2/Ghostgam.jpg" style={{ maxWidth: '300px', width: '100%' }}/>
+                  </figure>  
+                  <div className="buttons is-flex is-justify-content-center mt-1">
                   <div className="button is-info is-large mr-6" onClick={() => { setShowSignUp(false); setShowLogin(true) }}>
                     Login
                   </div>
                   <div className="button is-info is-large" onClick={() => { setShowSignUp(true); setShowLogin(false) }}>
                     SignUp
                   </div>
-                </div>
+                  </div>
+                 </> 
               )}
               {showLogin && <Login />}
               {showSignUp && <Register />}
@@ -87,6 +92,8 @@ const App = () => {
             </>
           ) : (
             <>
+              <div className="has-text-centered is-large m-6">
+              <Header title={message} /></div>
               <h1 className="title has-text-centered">Choose file type</h1>
               <div className="buttons is-flex is-justify-content-center mt-1">
                 <div className="button is-info is-large mr-6" onClick={() => (window.location.href = 'http://127.0.0.1:8000/api/chat')}>
