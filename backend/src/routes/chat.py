@@ -13,6 +13,7 @@ from src.services.document import save_received_file
 from src.services.request import request_answer_from_llm
 from src.services.vectorstore import doc_to_vectorstore
 from src.html.chat import html
+from src.services.save_history import save_chat_history
 
 
 router = APIRouter(tags=["chat"])
@@ -52,6 +53,7 @@ async def websocket_endpoint(websocket: WebSocket, db: Session = Depends(get_db)
                                 ws_manager.disconnect(websocket)
                             vectorstore = await doc_to_vectorstore(file_path)
                             answer = request_answer_from_llm(vectorstore, question)
+                            #await save_chat_history(question, answer)
                             await websocket.send_text(f"You: {question}<br><br> ZEN-BOT: {answer}")
                 except Exception as e:
                     await websocket.send_text(f"Error processing file - {str(e)}")

@@ -96,13 +96,16 @@ const App = () => {
               <Header title={message} /></div>
               <h1 className="title has-text-centered">Choose file type</h1>
               <div className="buttons is-flex is-justify-content-center mt-1">
-                <div className="button is-info is-large mr-6" onClick={() => (window.location.href = 'http://127.0.0.1:8000/api/chat')}>
-                  Documents
-                </div>
+                <button className="button is-info is-large mr-6" onClick={() => (window.location.href = 'http://127.0.0.1:8000/api/chat')}>
+                  Document
+                </button>
                 <div className="button is-info is-large" onClick={() => setShowAudioUpload(true)}>
                   Audio
                 </div>
+                <div className="button is-info is-large ml-6" onClick={() => setShowAudioUpload(true)}>
+                  Image
                 </div>
+              </div>
                 {showAudioUpload && <AudioUpload />}
             </>
           )}

@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Depends, status, UploadFile
 from sqlalchemy.orm import Session
 from sqlalchemy import func
-import nbimporter
 from src.database.db import get_db
 from src.database.models import File, User
 from src.repository import users as repository_users
