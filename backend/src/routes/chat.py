@@ -26,7 +26,7 @@ if not os.path.exists(UPLOAD_DIR):
 
 
 @router.websocket('/chat')
-async def websocket_endpoint(websocket: WebSocket):
+async def websocket_endpoint(websocket: WebSocket, db: Session = Depends(get_db)):
     await ws_manager.connect(websocket)
     file_received = False
 

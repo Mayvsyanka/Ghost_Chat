@@ -7,12 +7,14 @@ from langchain.vectorstores import FAISS
 import os
 from dotenv import load_dotenv
 
+from src.conf.config import settings
+
 load_dotenv()
 
-if "OPENAI_API_KEY" not in os.environ:
-    os.environ["OPENAI_API_KEY"] = input("OpenAI API Key: ")
+#if "OPENAI_API_KEY" not in os.environ:
+#    os.environ["OPENAI_API_KEY"] = input("OpenAI API Key: ")
 
-os.environ["OPENAI_API_KEY"] = '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'
+os.environ["OPENAI_API_KEY"] = settings.OPENAI_API_KEY
 
 
 def load_vectorstore(file_path):
