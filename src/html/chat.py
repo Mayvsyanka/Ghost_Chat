@@ -89,12 +89,18 @@ html = """
     <div id="output"></div>
 
     <script>
+        function redirectToNewRoute() {
+        window.location.href = '/api'; 
+        }
+        
         const socket = new WebSocket('ws://127.0.0.1:8000/api/chat');
+        
 
         document.getElementById('disconnectButton').addEventListener('click', function() {
         socket.send('disconnect');
+        window.location.href = '/api';
         });
-
+        
 
         socket.addEventListener('open', (event) => {
             console.log('Connected to WebSocket');
@@ -126,6 +132,12 @@ html = """
                 socket.send(question);
                 questionInput.value = '';
             }
+        }
+        
+        async function handleDisconnection() {
+        await websocket.send_text("Disconnected");
+        ws_manager.disconnect(websocket);
+        redirectToNewRoute();
         }
     </script>
 </body>
