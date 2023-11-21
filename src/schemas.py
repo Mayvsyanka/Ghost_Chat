@@ -2,6 +2,7 @@ import enum
 from datetime import datetime
 from pydantic import BaseModel, Field
 from typing import List, Optional, Dict
+from fastapi import WebSocket, WebSocketDisconnect
 
 from datetime import date, datetime
 
@@ -31,8 +32,6 @@ class UpdateUser(BaseModel):
 class UserModel(BaseModel):
     username: str = Field(min_length=3, max_length=16)
     email: str
-    bio: str = Field(max_length=500)
-    location: str = Field(max_length=100)
     password: str = Field(min_length=6, max_length=10)
 
 
@@ -42,8 +41,6 @@ class UserDb(BaseModel):
     email: str
     crated_at: datetime
     avatar: str
-    bio: str = Field(max_length=500)
-    location: str = Field(max_length=100)
     roles: Role
 
     class Config:
@@ -54,8 +51,6 @@ class Profile(BaseModel):
     email: str
     crated_at: datetime
     avatar: str
-    bio: str = Field(max_length=500)
-    location: str = Field(max_length=100)
     images: int
 
 class UserResponse(BaseModel):
@@ -65,3 +60,16 @@ class UserResponse(BaseModel):
 
 class RequestEmail(BaseModel):
     email: EmailStr
+
+
+class WebSocketManager:
+    def __init__(self):
+        self.active_connections = set()
+
+
+class FileModel(BaseModel):
+    id: int
+    # user_id: int
+    file_name: str
+    file_created_at: datetime
+
