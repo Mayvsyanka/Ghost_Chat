@@ -15,5 +15,5 @@ router = APIRouter(prefix="/image", tags=["image"])
 
 @router.post('/image')
 async def image(route: str):
-    text = await convert(route)
+    text = await convert(route, "english")
     return (text)

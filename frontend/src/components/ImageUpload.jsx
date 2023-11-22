@@ -37,15 +37,7 @@ const ImageUpload = () => {
     <div>
       <h1>Download your file</h1>
       <input type="text" value={fileRoute} onChange={handleFileRouteChange} placeholder="Route to file" />
-          <button onClick={handleTranscription}>Convert image</button>
-          <form name="myForm">
-            <select name="languages" multiple>
-            <option value="JS">JavaScript</option>
-            <option value="Java">Java</option>
-            <option value="CS">C#</option>
-            </select>
-          </form>
-        <div id="selection"></div>
+      <button onClick={handleTranscription}>Convert image</button>
       {transcription && (
         <div>
           <h2>Result</h2>

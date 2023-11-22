@@ -27,7 +27,9 @@ async def process_received_file(websocket: WebSocket, received_file):
             await websocket.send_text("Invalid file format. Only PDF files are allowed.")
         else:
             file_path = os.path.join(UPLOAD_DIR, "received_file.pdf")
+            print(file_path)
             await websocket.send_text("Thank you! Now you can ask your question.")
+            print(received_file)
             await save_received_file(received_file, file_path)
             return file_path
     except Exception as e:
@@ -54,7 +56,7 @@ async def websocket_endpoint(websocket: WebSocket, db: Session = Depends(get_db)
             data = await websocket.receive()
             if "bytes" in data:
                 received_file = data["bytes"]
-                file_path = 'C:\\French-Macaron-8.22.pdf'
+                file_path = await process_received_file(websocket, received_file)
                 vectorstore = await doc_to_vectorstore(file_path)
                 file_received = True
                 while file_received:

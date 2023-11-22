@@ -1,10 +1,11 @@
 """Module for User's operations"""
 
-from fastapi import APIRouter, Depends, status, UploadFile, File
+from fastapi import APIRouter, Depends, status, UploadFile, File, HTTPException
 from sqlalchemy.orm import Session
 import cloudinary
 import cloudinary.uploader
 from sqlalchemy import func
+import os
 
 from src.database.db import get_db
 from src.database.models import User
@@ -80,3 +81,37 @@ async def get_profile(username: str, _: User = Depends(auth_service.get_current_
             "crated_at": user_info.crated_at,
             "avatar": user_info.avatar,
             "images": 'None'}
+
+
+@router.delete("/delete_user", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_user(
+    current_user: User = Depends(auth_service.get_current_user),
+    db: Session = Depends(get_db)
+):
+    """
+    Удаление пользователя.
+
+    :param current_user: Текущий пользователь (полученный из зависимости get_current_user).
+    :param db: Объект сессии SQLAlchemy (полученный из зависимости get_db).
+    """
+
+    if current_user:
+        try:
+            user_profile = await get_profile(current_user.username, db)
+            history_file_path = f'src/history/{user_profile["username"]}_chat_history.pkl'
+
+            os.remove(history_file_path)
+
+            db.delete(current_user)
+            db.commit()
+
+            return {"message": "History deleted successfully"}
+        except FileNotFoundError:
+            raise HTTPException(status_code=404, detail="History file not found")
+        except Exception as e:
+            raise HTTPException(
+                status_code=500, detail=f"An error occurred: {str(e)}")
+    raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Пользователь не найден"
+        )

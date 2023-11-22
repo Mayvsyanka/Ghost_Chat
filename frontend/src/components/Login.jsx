@@ -109,7 +109,7 @@ const Login = () => {
                 </div>
 
                 <br />
-                <button className="button is-info is-ghost is-light" type="submit">
+                <button className="button is-info is-ghost is-light" type="submit" onClick={() => window.location.href = '/home_page'}>
                     Login
                 </button>
             </form>
