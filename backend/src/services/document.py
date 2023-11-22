@@ -9,14 +9,9 @@ from src.schemas import FileModel
 from src.services.roles import allowed_operation_admin
 
 
-async def save_received_file(received_data, file_path, db: Session = Depends(get_db)):
-    with open(file_path, 'rb') as file:
-        pdf_reader = PyPDF2.PdfReader(file)
-        file_content = ''
-        for page in pdf_reader.pages:
-            file_content += page.extract_text()
-
-        return(file_path)
+async def save_received_file(received_file, file_path):
+    with open(file_path, "wb") as file:
+        file.write(received_file)
 
     #file_upload = File(file_name=received_data.filename, data=file_content)
     #db.add(file_upload)

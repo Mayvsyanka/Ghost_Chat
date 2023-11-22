@@ -4,37 +4,42 @@ import ErrorMessage from "../components/ErrorMessage";
 export const UserContext = createContext();
 
 export const UserProvider = (props) => {
-    const [token, setToken] = useState(localStorage.getItem("awesomeLeadsToken"));
-    const [errorMessage, setErrorMessage] = useState("");
+  const storedToken = localStorage.getItem("awesomeLeadsToken");
+  const [token, setToken] = useState(storedToken);
+  const [errorMessage, setErrorMessage] = useState("");
 
     useEffect(() => {
         const fetchUser = async () => {
-            const storedToken = localStorage.getItem("awesomeLeadsToken");
+            try {
+                const storedToken = localStorage.getItem("awesomeLeadsToken");
 
-            if (!storedToken) {
-                console.log("Token is missing in localStorage");
-                return;
-            }
+                if (!storedToken) {
+                    console.log("Token is missing in localStorage");
+                    return;
+                }
 
-            const requestOptions = {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: "Bearer " + storedToken,
-                },
-            };
+                const requestOptions = {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${storedToken}`,
+                    },
+                };
 
-            const response = await fetch("http://127.0.0.1:8000/api/auth/refresh_token", requestOptions);
+                const response = await fetch("http://127.0.0.1:8000/api/auth/refresh_token", requestOptions);
 
-            if (!response.ok) {
-                console.error("Something went wrong", response.statusText);
-                const errorMessage = await response.text();
-                /*setErrorMessage(errorMessage);*/
-                setToken(null);
-            } else {
-                console.log("OK");
-                const data = await response.json();
-                localStorage.setItem("awesomeLeadsToken", data.access_token);
+                if (!response.ok) {
+                    console.error("Something went wrong", response.statusText);
+                    const errorMessage = await response.text();
+                    setErrorMessage(errorMessage);
+                } else {
+                    console.log("OK");
+                    const data = await response.json();
+                    localStorage.setItem("awesomeLeadsToken", data.access_token);
+                    setToken(data.access_token);
+                }
+            } catch (error) {
+                console.error("Error fetching user:", error);
             }
         };
 

@@ -72,3 +72,4 @@ async def update_access(user_email: str, new_role:str, user: User=Depends(auth_s
     """
     user = await repository_access.update_user(user_email, new_role, db)
     return(user)
+
