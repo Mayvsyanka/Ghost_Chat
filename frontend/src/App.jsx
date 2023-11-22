@@ -7,7 +7,8 @@ import Login from "./components/Login";
 import ForgotPassword from "./components/ForgotPassword";
 import FileUpload from "./components/FileUploader";
 import AudioUpload from "./components/AudioUpload";
-import Home from "./components/Home";
+import Home from "./components/Home"; 
+import ImageUpload from "./components/ImageUpload";
 
 const App = () => {
   const [message, setMessage] = useState("");
@@ -17,6 +18,7 @@ const App = () => {
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [showFileUpload, setShowFileUpload] = useState(false);
   const [showAudioUpload, setShowAudioUpload] = useState(false);
+  const [showImageUpload, setShowImageUpload] = useState(false);
   const [showHomeUpload, setShowUpload] = useState(false)
 
   const getWelcomeMessage = async () => {
@@ -99,14 +101,15 @@ const App = () => {
                 <button className="button is-info is-large mr-6" onClick={() => (window.location.href = 'http://127.0.0.1:8000/api/chat')}>
                   Document
                 </button>
-                <div className="button is-info is-large" onClick={() => setShowAudioUpload(true)}>
+                  <div className="button is-info is-large" onClick={() => { setShowAudioUpload(true); setShowImageUpload(false) }}>
                   Audio
                 </div>
-                <div className="button is-info is-large ml-6" onClick={() => setShowAudioUpload(true)}>
+                  <div className="button is-info is-large ml-6" onClick={() => { setShowImageUpload(true); setShowAudioUpload(false); }}>
                   Image
                 </div>
               </div>
                 {showAudioUpload && <AudioUpload />}
+                {showImageUpload && <ImageUpload />}
             </>
           )}
         </div>

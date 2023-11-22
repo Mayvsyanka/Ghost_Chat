@@ -16,6 +16,8 @@ async def save_received_file(received_data, file_path, db: Session = Depends(get
         for page in pdf_reader.pages:
             file_content += page.extract_text()
 
+        return(file_path)
+
     #file_upload = File(file_name=received_data.filename, data=file_content)
     #db.add(file_upload)
     #db.commit()
